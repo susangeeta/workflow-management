@@ -25,20 +25,25 @@ const ExecuteModal: React.FC<ExecuteModalProps> = ({
               ✖
             </button>
 
-            <p className="text-sm font-semibold text-[#333333]  ">
-              "Are You Sure You Want To Execute The Process '{workflowName}'?"
-            </p>
-            <p className="text-[#EE3425] font-medium text-xs pt-4">
-              You Cannot Undo This Step
-            </p>
+            <div className="pt-6">
+              <p className="text-sm font-semibold text-[#333333]  ">
+                "Are You Sure You Want To Execute The Process '{workflowName}'?"
+              </p>
+              <p className="text-[#EE3425] font-medium text-xs pt-2">
+                You Cannot Undo This Step
+              </p>
+            </div>
           </div>
 
-          <div className="flex justify-end items-end gap-4 p-5 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]  w-full ">
-            <button className="bg- text-white px-4 py-2 rounded-md hover:bg-green-700">
+          <div className="flex justify-end items-end gap-4 p-3 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]  w-full ">
+            <button
+              onClick={onClose}
+              className="text-xs cursor-pointer font-medium px-4 py-2 border rounded-md border-[#E0E0E0] bg-[#FFFFFF] text-[#4F4F4F]"
+            >
               Yes
             </button>
             <button
-              className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500"
+              className="text-xs font-medium cursor-pointer px-4 py-2 border rounded-md border-[#E0E0E0] bg-[#FFFFFF] text-[#4F4F4F]"
               onClick={onClose}
             >
               No

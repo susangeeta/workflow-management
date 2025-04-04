@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { auth } from "@/db/db.config";
 import {
@@ -28,6 +29,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const Login = () => {
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState<string>("");
   const [isRegister, setIsRegister] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
@@ -57,16 +59,22 @@ const Login = () => {
           "Registration successful! You can now log in.",
           "success"
         );
-        setIsRegister(false); // Switch to login
+        setIsRegister(false);
       } else {
         await signInWithEmailAndPassword(auth, values.email, values.password);
         Swal.fire("Success!", "Login successful!", "success");
         navigate("/portal/workflows");
       }
+      // eslint-disable-next-line no-unused-vars
     } catch (err: any) {
-      setError(err.message);
+      Swal.fire(
+        "Oops!",
+        " Credentials are incorrect. Don't have an account? Please sign up..",
+        "error"
+      );
+    } finally {
+      setAuthLoading(false);
     }
-    setAuthLoading(false);
   };
 
   return (

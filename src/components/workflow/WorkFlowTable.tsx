@@ -24,8 +24,8 @@ const WorkFlowTable = ({ workflows }: { workflows: any[] }) => {
 
   const handleDeleteTask = async (docId: string) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Are you sure you want to Delete 'Process_Name'?",
+      text: "You cannot Undo this step",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
