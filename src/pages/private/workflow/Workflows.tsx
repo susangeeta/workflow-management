@@ -1,30 +1,48 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { hamburger, searchIcon } from "@/assets/workflow";
 import TaskHeader from "@/components/workflow/TaskHeader";
 import WorkFlowTable from "@/components/workflow/WorkFlowTable";
-import WorkflowsContext from "@/contexts/WorkflowContext";
-import { useContext, useMemo, useState } from "react";
+import { db } from "@/db/db.config";
+import { collection, getDocs } from "firebase/firestore";
+
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const WorkflowsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const context = useContext(WorkflowsContext);
+  const [workflows, setWorkflows] = useState<any[]>([]);
+  const navigate = useNavigate();
+  const handleGo = () => {
+    navigate("create-new-workflow");
+  };
 
-  if (!context) {
-    return (
-      <p className="text-center text-red-500">Error: Context not found.</p>
-    );
-  }
+  // 🔥 Fetch workflows from Firebase
+  useEffect(() => {
+    const fetchWorkflows = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "workflows"));
+        const fetchedWorkflows = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setWorkflows(fetchedWorkflows);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error("Error fetching workflows:", error);
+      }
+    };
 
-  const { workflows } = context;
+    fetchWorkflows();
+  }, []);
 
-  // Filter workflows based on search query
   const filteredWorkflows = useMemo(() => {
     return workflows.filter(
       (workflow) =>
-        workflow.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        workflow.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         workflow.id.toString().includes(searchQuery)
     );
   }, [workflows, searchQuery]);
+
   return (
     <div>
       {" "}
@@ -52,7 +70,10 @@ const WorkflowsPage = () => {
               <img src={searchIcon} className="absolute right-3 top-2.5" />
             </div>
             <div>
-              <button className="bg-[#221F20] px-4 py-2 text-white rounded-[6px] text-[12px] font-medium cursor-pointer">
+              <button
+                onClick={handleGo}
+                className="bg-[#221F20] px-4 py-2 text-white rounded-[6px] text-[12px] font-medium cursor-pointer"
+              >
                 + Create New Process
               </button>
             </div>

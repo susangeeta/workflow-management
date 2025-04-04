@@ -84,7 +84,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex items-center justify-center">
+    <div className="h-full overflow-hidden  flex items-center justify-center">
       <div
         className="flex h-full w-full bg-cover bg-center bg-no-repeat bg-black/60 bg-blend-overlay "
         style={{ backgroundImage: `url(${bgImage})` }}
@@ -112,8 +112,8 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="w-1/2 flex items-center justify-center relative">
-              <div className="bg-[#FAFAFA] rounded-2xl shadow-lg p-8 w-96 absolute">
+            <div className="w-1/2 flex items-center justify-center pt-[11rem]">
+              <div className="bg-[#FAFAFA] rounded-3xl shadow-lg p-9 w-[450px] ">
                 <p className="text-sm font-medium text-black mb-1">
                   WELCOME BACK!
                 </p>
@@ -133,29 +133,27 @@ const Login = () => {
                   onSubmit={form.handleSubmit(handleAuth)}
                   className="flex flex-col gap-4"
                 >
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-normal text-[#4F4F4F]">
                       Email
                     </label>
                     <input
                       {...form.register("email")}
                       placeholder="Type here..."
-                      className="w-full px-3 py-5 border bg-white border-[#E0E0E0] rounded-md"
+                      className="w-full px-3 py-2 border bg-white border-[#E0E0E0] rounded-md focus:outline-none "
                     />
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-normal text-[#4F4F4F]">
                       Password
                     </label>
                     <input
                       {...form.register("password")}
                       type="password"
                       placeholder="Type here..."
-                      className="w-full px-3 py-5 border bg-white border-[#E0E0E0] rounded-md"
+                      className="w-full px-3 py-2 border bg-white border-[#E0E0E0] rounded-md focus:outline-none"
                     />
                   </div>
-
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="relative inline-block h-5 w-5 mr-1">
@@ -195,10 +193,9 @@ const Login = () => {
                       Forgot Password?
                     </a>
                   </div>
-
                   <button
                     type="submit"
-                    className="bg-red-500 text-white py-3 rounded-md font-bold text-base"
+                    className="bg-red-500 cursor-pointer text-white py-3 rounded-md font-bold text-base"
                   >
                     {authLoading
                       ? "Loading..."
@@ -206,9 +203,13 @@ const Login = () => {
                         ? "Sign Up"
                         : "Log In"}
                   </button>
-
-                  <div className="text-center text-sm text-gray-500">or</div>
-
+                  <div className="flex gap-4 items-center  ">
+                    <div className="w-40 h-[1px] bg-[#E0E0E0]"></div>
+                    <div className="text-center text-sm text-gray-500">
+                      or
+                    </div>{" "}
+                    <div className="w-40 h-[1px] bg-[#E0E0E0]"></div>
+                  </div>
                   {/* Social Login Options */}
                   <div className="flex flex-col gap-3">
                     <button
@@ -241,7 +242,6 @@ const Login = () => {
                       </span>
                     </button>
                   </div>
-
                   <div className="text-center text-sm mt-4">
                     {isRegister ? "Already have an account?" : "New User?"}{" "}
                     <a

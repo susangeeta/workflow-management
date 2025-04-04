@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
 import {
   ApiNode,
@@ -9,7 +10,10 @@ import {
   TextNode,
   ZoomControls
 } from "@/components/workflow/create-workflow";
+import { useDb } from "@/hooks";
+import { useAuth } from "@/hooks/use-auth";
 import { useCallback, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactFlow, {
   Background,
   Connection,
@@ -67,6 +71,9 @@ const WorkflowCreator = () => {
   ]);
   const reactFlowInstance = useRef<ReactFlowInstance | null>(null);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const user = useAuth();
+  const { create } = useDb();
+  const navigate = useNavigate();
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -104,7 +111,6 @@ const WorkflowCreator = () => {
         };
 
         const newNode = {
-          // here change
           id: newNodeId,
           type: nodeType,
           position: { x: FIXED_X_FOR_NODE, y: insertY + SPACING },
@@ -260,12 +266,47 @@ const WorkflowCreator = () => {
       startNode: StartNode,
       endNode: EndNode,
       plusNode: PlusNode,
-      apiNode: ApiNode,
-      emailNode: EmailNode,
+      apiNode: (props) => <ApiNode {...props} onDelete={handleDeleteNode} />,
+      emailNode: (props) => (
+        <EmailNode {...props} onDelete={handleDeleteNode} />
+      ),
       textNode: (props) => <TextNode {...props} onDelete={handleDeleteNode} />
     }),
     [handleDeleteNode]
   );
+
+  const handleSave = async ({
+    name,
+    description
+  }: {
+    name: string;
+    description: string;
+  }) => {
+    const workflowData = {
+      name,
+      description,
+      createdAt: new Date().toISOString(),
+      createdBy: user?.email || "Anonymous",
+
+      nodes: nodes.map(({ data, ...rest }) => ({
+        ...rest,
+        data: Object.fromEntries(
+          Object.entries(data).filter(
+            ([_, value]) => typeof value !== "function"
+          )
+        )
+      })),
+
+      edges
+    };
+
+    try {
+      await create("workflows", workflowData);
+      navigate("/portal/workflows");
+    } catch (error) {
+      console.error("Error saving workflow:", error);
+    }
+  };
 
   return (
     <div ref={reactFlowWrapper} className="w-full h-screen">
@@ -283,7 +324,7 @@ const WorkflowCreator = () => {
         className="bg-yellow-50"
       >
         <Background gap={12} size={1} />
-        <EventControls />
+        <EventControls handleSave={handleSave} />
         <ZoomControls reactFlowInstance={reactFlowInstance} />
       </ReactFlow>
     </div>
