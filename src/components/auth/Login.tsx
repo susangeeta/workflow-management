@@ -132,6 +132,7 @@ const Login = () => {
                     </label>
                     <input
                       {...form.register("email")}
+                      required
                       placeholder="Type here..."
                       className="w-full px-3 py-2 border bg-white border-[#E0E0E0] rounded-md focus:outline-none "
                     />
@@ -143,6 +144,7 @@ const Login = () => {
                     <input
                       {...form.register("password")}
                       type="password"
+                      required
                       placeholder="Type here..."
                       className="w-full px-3 py-2 border bg-white border-[#E0E0E0] rounded-md focus:outline-none"
                     />
