@@ -11,7 +11,7 @@ import { ReactFlowProvider } from "reactflow";
 
 const generateRoutes = () => {
   return createBrowserRouter([
-    { path: "/auth/login", element: <LoginPage /> },
+    { path: "/", element: <LoginPage /> },
     {
       path: "/portal",
       element: (
