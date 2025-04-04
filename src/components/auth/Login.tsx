@@ -2,20 +2,18 @@
 import { auth } from "@/db/db.config";
 import {
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup
+  signInWithEmailAndPassword
 } from "firebase/auth";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
 import { apple, bgImage, facebook, google } from "@/assets/auth";
 import { mainLogo } from "@/assets/logos";
+import { useDb } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-// import SignIn from "./Signin";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -33,8 +31,8 @@ const Login = () => {
   const [error, setError] = useState<string>("");
   const [isRegister, setIsRegister] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
+  const { signInWithGoogle } = useDb();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -69,18 +67,6 @@ const Login = () => {
       setError(err.message);
     }
     setAuthLoading(false);
-  };
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    setGoogleLoading(true);
-    try {
-      await signInWithPopup(auth, provider);
-      Swal.fire("Success!", "Google login successful!", "success");
-    } catch (err: any) {
-      setError(err.message);
-      setGoogleLoading(false);
-    }
   };
 
   return (
@@ -213,14 +199,15 @@ const Login = () => {
                   {/* Social Login Options */}
                   <div className="flex flex-col gap-3">
                     <button
-                      onClick={handleGoogleLogin}
+                      onClick={async () => {
+                        await signInWithGoogle();
+                        navigate("/portal/workflows");
+                      }}
                       className="flex items-start cursor-pointer justify-start gap-20 py-4 px-4 border-2 border-gray-200 rounded-md"
                     >
                       <img src={google} alt="Google" className="h-5 w-5 ml-6" />
                       <span className="text-sm text-medium font-normal">
-                        <span>
-                          {googleLoading ? "Loading..." : "Log In with Google"}
-                        </span>
+                        {"Log In with Google"}
                       </span>
                     </button>
 
