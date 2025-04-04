@@ -29,8 +29,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const Login = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState<string>("");
+  const [error] = useState<string>("");
   const [isRegister, setIsRegister] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const navigate = useNavigate();
