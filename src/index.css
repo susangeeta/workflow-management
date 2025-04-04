@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Primary Colors */
+  --primary-accent: #ee3425;
+
+  --secondary-accent: #4f4f4f;
+
+  --background-light: #fafafa;
+  --background-yellow-50: #f8f2e7;
+  --background-yellow-100: #f2e3c3;
+
+  --text-gray: #424242;
+  --medium-gray: #616161;
+  --pale-gray: #eeeeee;
+
+  --soft-orange: #fbc793;
+  --slate-gray: #4f4f4f;
+
+  /* --------- Radius --------- */
+  --radius: 0.625rem; /* 10px Base border radius */
+
+  /* --------- Spacing System --------- */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-2xl: 3rem; /* 48px */
+  --spacing-3xl: 4rem; /* 64px */
+
+  /* --------- Container Widths --------- */
+  --container-3xs: 256px;
+  --container-2xs: 288px;
+  --container-xs: 320px;
+  --container-sm: 384px;
+  --container-md: 448px;
+  --container-lg: 512px;
+  --container-xl: 576px;
+  --container-2xl: 672px;
+  --container-3xl: 768px;
+  --container-4xl: 896px;
+  --container-5xl: 1024px;
+  --container-6xl: 1152px;
+  --container-7xl: 1280px;
+  --container-8xl: 1920px;
+
+  /* --------- Break Points --------- */
+  --breakpoint-xs: 0px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+  --breakpoint-3xl: 1536px;
+  --breakpoint-4xl: 1780px;
+  --breakpoint-5xl: 1920px;
+  --breakpoint-6xl: 2560px;
+
+  /* --------- Font Sizes --------- */
+  --font-size-2xs: 1.625rem; /* 10px */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --x: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.75rem; /* 28px */
+  --font-size-4xl: 1.875rem; /* 30px */
+  --font-size-5xl: 2rem; /* 32px */
+  --font-size-6xl: 2.25rem; /* 36px */
+  --font-size-6xxl: 2.44125rem; /*39px*/
+  --font-size-7xl: 3rem; /* 48px */
+
+  /* --------- Line Heights --------- */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --line-height-loose: 2;
+}
+
+@theme inline {
+  /* --------- Font --------- */
+  --font-inter: "Poppins", sans-serif; /* Primary font */
+
+  /* Primary Color Mapping */
+  --color-primary: var(--primary-accent);
+  --color-secondary: var(--secondary-accent);
+  --color-gray: var(--text-gray);
+  --color-bg-primary-yellow-50: var(--background-yellow-50);
+  --color-bg-primary-yellow-100: var(--background-yellow-100);
+  --color-bg-primary-light: var(--background-light);
+  --color-medium: var(--medium-gray);
+  --color-pale: var(--pale-gray);
+  --color-orange: var(--soft-orange);
+  --color-slate: var(--slate-gray);
+
+  /* --------- Radius Mapped--------- */
+  --radius-xs: 4px;
+  --radius-sm: calc(var(--radius) - 4px) /* 6px */;
+  --radius-md: calc(var(--radius) - 2px) /* 8px */;
+  --radius-lg: var(--radius) /* 10px */;
+  --radius-xl: calc(var(--radius) + 2px) /* 12px */;
+  --radius-2xl: calc(var(--radius) + 4px) /* 14px */;
+
+  /* --------- NEW: Spacing System Mapped --------- */
+  --space-xs: var(--spacing-xs);
+  --space-sm: var(--spacing-sm);
+  --space-md: var(--spacing-md);
+  --space-lg: var(--spacing-lg);
+  --space-xl: var(--spacing-xl);
+  --space-2xl: var(--spacing-2xl);
+  --space-3xl: var(--spacing-3xl);
+
+  /* --------- NEW: Font Sizes Mapped --------- */
+  --text-2xs: var(--font-size-2xs);
+  --text-xs: var(--font-size-xs);
+  --text-sm: var(--font-size-sm);
+  --text-base: var(--font-size-base);
+  --text-lg: var(--font-size-lg);
+  --text-xl: var(--font-size-xl);
+  --text-2xl: var(--font-size-2xl);
+  --text-3xl: var(--font-size-3xl);
+  --text-4xl: var(--font-size-4xl);
+  --text-5xl: var(--font-size-5xl);
+  --text-6xl: var(--font-size-6xl);
+  --text-7xl: var(--font-size-7xl);
+  --text-6xxl: var(--font-size-6xxl);
+
+  /* --------- NEW: Break Point Mapped --------- */
+  --breakpoint-xs: 0px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+  --breakpoint-3xl: 1536px;
+  --breakpoint-4xl: 1780px;
+  --breakpoint-5xl: 1920px;
+  --breakpoint-6xl: 2560px;
+}
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply font-inter bg-white text-gray-400;
+  }
+  .heading-28px {
+    @apply text-3xl text-gray-400 font-bold;
+  }
+  .custom-container {
+    @apply max-w-[400px] md:max-w-[1360px] mx-auto;
+  }
+}
