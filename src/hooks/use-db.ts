@@ -37,6 +37,9 @@ const useDb = () => {
 
         return user.uid;
       }
+
+      // If no user is found, return a fallback value
+      return null;
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "something went wrong";
