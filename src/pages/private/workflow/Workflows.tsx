@@ -3,7 +3,8 @@ import { hamburger, searchIcon } from "@/assets/workflow";
 import TaskHeader from "@/components/workflow/TaskHeader";
 import WorkFlowTable from "@/components/workflow/WorkFlowTable";
 import { db } from "@/db/db.config";
-import { collection, getDocs } from "firebase/firestore";
+import { useAuth } from "@/hooks/use-auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,19 +13,27 @@ const WorkflowsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [workflows, setWorkflows] = useState<any[]>([]);
   const navigate = useNavigate();
+  const user = useAuth();
   const handleGo = () => {
     navigate("create-new-workflow");
   };
 
-  // 🔥 Fetch workflows from Firebase
   useEffect(() => {
     const fetchWorkflows = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "workflows"));
+        if (!user?.uid) {
+          return;
+        }
+
+        const workflowsRef = collection(db, "workflows");
+        const q = query(workflowsRef, where("createdBy.uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
         const fetchedWorkflows = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data()
         }));
+
         setWorkflows(fetchedWorkflows);
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -33,7 +42,7 @@ const WorkflowsPage = () => {
     };
 
     fetchWorkflows();
-  }, []);
+  }, [user?.uid]);
 
   const filteredWorkflows = useMemo(() => {
     return workflows.filter(

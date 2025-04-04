@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { more, pin, Vector } from "@/assets/workflow";
 import { useDb } from "@/hooks";
+import dayjs from "dayjs";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import ExecuteModal from "./ExecuteModal";
@@ -44,6 +45,7 @@ const WorkFlowTable = ({ workflows }: { workflows: any[] }) => {
       }
     });
   };
+  console.log(workflows);
   return (
     <>
       <div>
@@ -61,8 +63,9 @@ const WorkFlowTable = ({ workflows }: { workflows: any[] }) => {
               <div className="col-span-1 font-normal text-sm">
                 {workflow.id?.slice(0, 6)}...
               </div>
-              <div className="col-span-3 font-medium text-xs">
-                zubin Khanna | 22:43 IST - 28/05
+              <div className="col-span-3 font-medium text-xs truncate">
+                {workflow?.createdBy?.email} |{" "}
+                {dayjs(workflow.createdAt).format("m:hh, DD MM, YYYY")}
               </div>
               <div className="col-span-4 font-medium text-xs">
                 {workflow.description}...

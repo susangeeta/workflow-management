@@ -274,6 +274,7 @@ const WorkflowCreator = () => {
     }),
     [handleDeleteNode]
   );
+  console.log(user);
 
   const handleSave = async ({
     name,
@@ -286,7 +287,11 @@ const WorkflowCreator = () => {
       name,
       description,
       createdAt: new Date().toISOString(),
-      createdBy: user?.email || "Anonymous",
+      createdBy: {
+        displayName: user?.displayName,
+        email: user?.email,
+        uid: user?.uid
+      },
 
       nodes: nodes.map(({ data, ...rest }) => ({
         ...rest,
