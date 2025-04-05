@@ -88,11 +88,11 @@ const WorkFlowTable = ({
                 <img src={pin} className="h-4 w-4" />
                 <button
                   onClick={() => handleExecute(workflow.name)}
-                  className="border cursor-pointer border-gray-300 rounded px-3 py-1.5 font-medium text-[12px] hover:bg-[#a6a496] hover:border-[#a59b57]"
+                  className="border cursor-pointer border-gray-300 rounded-md px-3 py-1.5 font-medium text-[12px] hover:bg-[#a6a496] hover:border-[#a59b57]"
                 >
                   Execute
                 </button>
-                <button className="border cursor-pointer border-gray-300 rounded px-3 font-medium text-[12px] py-1.5 hover:bg-gray-50">
+                <button className="border cursor-pointer border-gray-300 rounded-md px-3 font-medium text-[12px] py-1.5 hover:bg-gray-50">
                   Edit
                 </button>
                 <Popover>
