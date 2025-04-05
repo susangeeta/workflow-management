@@ -90,7 +90,10 @@ const WorkflowsPage = () => {
           <section className="py-8">
             <div className="bg-white p-5">
               <TaskHeader />
-              <WorkFlowTable workflows={filteredWorkflows} />
+              <WorkFlowTable
+                workflows={filteredWorkflows}
+                setWorkflows={setWorkflows}
+              />
             </div>
           </section>
         </section>
