@@ -14,6 +14,7 @@ const WorkflowsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [workflows, setWorkflows] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const itemsPerPage = 8;
 
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const WorkflowsPage = () => {
     const fetchWorkflows = async () => {
       try {
         if (!user?.uid) return;
-
+        setLoading(true);
         const workflowsRef = collection(db, "workflows");
         const q = query(workflowsRef, where("createdBy.uid", "==", user.uid));
         const querySnapshot = await getDocs(q);
@@ -36,10 +37,12 @@ const WorkflowsPage = () => {
           id: doc.id,
           ...doc.data()
         }));
-
+        setLoading(false);
         setWorkflows(fetchedWorkflows);
       } catch (error) {
         console.error("Error fetching workflows:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -98,68 +101,74 @@ const WorkflowsPage = () => {
         <section className="py-8">
           <div className="bg-white p-5">
             <TaskHeader />
-            <WorkFlowTable
-              workflows={paginatedWorkflows}
-              setWorkflows={setWorkflows}
-            />
-
-            <div className="flex justify-end mt-4 gap-2 items-center">
-              <img
-                src={rightIcon}
-                onClick={() =>
-                  currentPage > 1 && setCurrentPage(currentPage - 1)
-                }
-                className={`h-4 w-4 ${
-                  currentPage === 1
-                    ? "opacity-40 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
+            {loading ? (
+              <div className="text-red-600 text-center pt-6">Loading</div>
+            ) : (
+              <WorkFlowTable
+                workflows={paginatedWorkflows}
+                setWorkflows={setWorkflows}
               />
+            )}
 
-              {Array.from({ length: totalPages }, (_, index) => {
-                if (
-                  index === 0 ||
-                  index === totalPages - 1 ||
-                  Math.abs(index + 1 - currentPage) <= 1
-                ) {
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPage(index + 1)}
-                      className={`w-8 h-8 text-sm cursor-pointer font-medium rounded-md transition-all duration-150 ${
-                        currentPage === index + 1
-                          ? "bg-[#FEF3E9] text-black"
-                          : "bg-white text-black border border-gray-300"
-                      }`}
-                    >
-                      {index + 1}
-                    </button>
-                  );
-                }
+            {workflows.length > 0 && (
+              <div className="flex justify-end mt-4 gap-2 items-center">
+                <img
+                  src={rightIcon}
+                  onClick={() =>
+                    currentPage > 1 && setCurrentPage(currentPage - 1)
+                  }
+                  className={`h-4 w-4 ${
+                    currentPage === 1
+                      ? "opacity-40 cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
+                />
 
-                if (index === currentPage - 3 || index === currentPage + 1) {
-                  return (
-                    <span key={index} className="px-1 text-gray-500">
-                      ...
-                    </span>
-                  );
-                }
+                {Array.from({ length: totalPages }, (_, index) => {
+                  if (
+                    index === 0 ||
+                    index === totalPages - 1 ||
+                    Math.abs(index + 1 - currentPage) <= 1
+                  ) {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentPage(index + 1)}
+                        className={`w-8 h-8 text-sm cursor-pointer font-medium rounded-md transition-all duration-150 ${
+                          currentPage === index + 1
+                            ? "bg-[#FEF3E9] text-black"
+                            : "bg-white text-black border border-gray-300"
+                        }`}
+                      >
+                        {index + 1}
+                      </button>
+                    );
+                  }
 
-                return null;
-              })}
+                  if (index === currentPage - 3 || index === currentPage + 1) {
+                    return (
+                      <span key={index} className="px-1 text-gray-500">
+                        ...
+                      </span>
+                    );
+                  }
 
-              <img
-                src={leftIcon}
-                onClick={() =>
-                  currentPage < totalPages && setCurrentPage(currentPage + 1)
-                }
-                className={`h-4 w-4 ${
-                  currentPage === totalPages
-                    ? "opacity-40 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
-              />
-            </div>
+                  return null;
+                })}
+
+                <img
+                  src={leftIcon}
+                  onClick={() =>
+                    currentPage < totalPages && setCurrentPage(currentPage + 1)
+                  }
+                  className={`h-4 w-4 ${
+                    currentPage === totalPages
+                      ? "opacity-40 cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
+                />
+              </div>
+            )}
           </div>
         </section>
       </section>

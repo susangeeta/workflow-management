@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { Panel } from "reactflow";
 
 const EventControls = ({
-  handleSave
+  handleSave,
+  isSaveEnable
 }: {
   handleSave: ({
     name,
@@ -21,6 +22,7 @@ const EventControls = ({
     name: string;
     description: string;
   }) => void;
+  isSaveEnable: boolean;
 }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -51,11 +53,13 @@ const EventControls = ({
             Untitled
           </div>
 
-          <DialogTrigger asChild>
-            <div className="cursor-pointer">
-              <img src={saveIcon} alt="Save" />
-            </div>
-          </DialogTrigger>
+          {isSaveEnable && (
+            <DialogTrigger asChild>
+              <div className="cursor-pointer">
+                <img src={saveIcon} alt="Save" />
+              </div>
+            </DialogTrigger>
+          )}
         </div>
       </Panel>
       <DialogContent className="!w-[700px] !max-w-[700px] !h-[403px]">

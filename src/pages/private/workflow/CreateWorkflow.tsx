@@ -120,7 +120,9 @@ const WorkflowCreator = () => {
             url: "",
             headers: "",
             body: "",
-            metadata: ""
+            metadata: "",
+            status: "Paused",
+            createdAt: new Date().toISOString()
           }
         };
 
@@ -329,7 +331,17 @@ const WorkflowCreator = () => {
         className="bg-yellow-50"
       >
         <Background gap={12} size={1} />
-        <EventControls handleSave={handleSave} />
+
+        <div>
+          <EventControls
+            handleSave={handleSave}
+            isSaveEnable={
+              nodes?.filter(({ type }) =>
+                ["textNode", "emailNode", "apiNode"].includes(type!)
+              ).length > 0
+            }
+          />
+        </div>
         <ZoomControls reactFlowInstance={reactFlowInstance} />
       </ReactFlow>
     </div>

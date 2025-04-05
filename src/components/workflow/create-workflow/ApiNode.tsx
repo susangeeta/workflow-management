@@ -44,7 +44,7 @@ const ApiNode = ({ id, data, onDelete }: ApiNodeProps) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      method: data.metadata?.method === "POST" ? "POST" : "GET",
+      method: data.metadata,
       url: data.metadata?.url || "",
       headers: data.metadata?.headers || "",
       body: data.metadata?.body || ""
@@ -140,7 +140,11 @@ const ApiNode = ({ id, data, onDelete }: ApiNodeProps) => {
                         value={field.value}
                         className="w-full border border-[#E0E0E0] rounded-md px-3 py-1.5 text-black focus:outline-none"
                       >
-                        <option value="" disabled>
+                        <option
+                          value=""
+                          disabled
+                          className="text-[#E0E0E0] text-sm "
+                        >
                           Type here...
                         </option>
                         <option value="GET">GET</option>

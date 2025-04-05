@@ -1,5 +1,6 @@
 export { default as deleteIcon } from "./delete.svg";
 export { default as endSvg } from "./end.svg";
+export { default as Frame } from "./Frame.svg";
 export { default as hamburger } from "./hamburger.svg";
 export { default as leftIcon } from "./left-icon.svg";
 export { default as more } from "./more.svg";
